@@ -1,31 +1,28 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.IO;
-using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Parser
+namespace FileParser
 {
-    class MainClass
+    class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            string sourceDirName = Console.ReadLine();
-            string destinationFileName = Console.ReadLine();
-            string[] files = Directory.GetFiles(sourceDirName);
-            List<List<string>> parsedFiles = new List<List<string>>();
-
-            foreach(var i in files)
-            {
-                parsedFiles.Add(FileParser.Parse(i));
-            }
-
-            File.Create(destinationFileName);
-            {
-                foreach (var records in parsedFiles)
-                {
-                    File.WriteAllLines(destinationFileName ,records);
-                }
-            }
-
+            //string sourceDirName = Console.ReadLine();
+            string sourceDirName = "medium";
+            string destinationFileName = "test.txt";
+            //string destinationFileName = Console.ReadLine();
+            
+            RecordsFormatter formatter = new RecordsFormatter();
+            var s = new Stopwatch();
+            s.Start();;
+            formatter.Format(sourceDirName, destinationFileName);
+            s.Stop();
+            Console.WriteLine(s.Elapsed);
         }
+        
     }
 }
